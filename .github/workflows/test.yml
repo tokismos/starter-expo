@@ -1,17 +1,27 @@
-name: Test
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
-on:
-  push: branches:[main]
-  pull_request: branches:[main]
+on: [push]
 
 jobs:
-  build:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: 18
+
       - run: npm ci
+
       - run: npm run lint
+
+      - name: Check linting outcome
+        if: steps.lint.outcome != 'success'
+        run: |
+          echo "Linting failed. Please fix the linting errors."
+          exit 1
