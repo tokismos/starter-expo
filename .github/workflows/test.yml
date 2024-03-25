@@ -24,4 +24,5 @@ jobs:
         if: steps.lint.outcome != 'success'
         run: |
           echo "Linting failed. Please fix the linting errors."
+          echo "${{ steps.lint.outputs.stderr }}"
           exit 1
